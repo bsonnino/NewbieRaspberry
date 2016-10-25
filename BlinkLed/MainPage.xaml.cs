@@ -63,19 +63,17 @@ namespace BlinkLed
 
         private void StartStopClick(object sender, RoutedEventArgs e)
         {
-            if (_pin != null)
+            if (_pin == null) return;
+            if (_timer.IsEnabled)
             {
-                if (_timer.IsEnabled)
-                {
-                    _timer.Stop();
-                    _pin.Write(GpioPinValue.High);
-                    StartStopButton.Content = "Start";
-                }
-                else
-                {
-                    _timer.Start();
-                    StartStopButton.Content = "Stop";
-                }
+                _timer.Stop();
+                _pin.Write(GpioPinValue.High);
+                StartStopButton.Content = "Start";
+            }
+            else
+            {
+                _timer.Start();
+                StartStopButton.Content = "Stop";
             }
         }
     }

@@ -74,19 +74,17 @@ namespace BlinkLedButton
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (e.Edge == GpioPinEdge.FallingEdge)
+                if (e.Edge != GpioPinEdge.FallingEdge) return;
+                if (_timer.IsEnabled)
                 {
-                    if (_timer.IsEnabled)
-                    {
-                        _timer.Stop();
-                        _pin.Write(GpioPinValue.High);
-                        GpioText.Text = "LED stopped";
-                    }
-                    else
-                    {
-                        _timer.Start();
-                        GpioText.Text = "LED started";
-                    }
+                    _timer.Stop();
+                    _pin.Write(GpioPinValue.High);
+                    GpioText.Text = "LED stopped";
+                }
+                else
+                {
+                    _timer.Start();
+                    GpioText.Text = "LED started";
                 }
             });
         }
